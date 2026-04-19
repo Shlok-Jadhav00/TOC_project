@@ -1,0 +1,594 @@
+/* ============================================================
+   College Timetable Validator — style.css
+   Phase 4: UI & Feedback · TOC Project Topic #15
+   ============================================================ */
+
+/* ── CSS Variables ── */
+:root {
+  --bg:        #0B0F19;
+  --surface:   #111827;
+  --border:    #1E293B;
+  --border-hl: #334155;
+  --text:      #F1F5F9;
+  --muted:     #94A3B8;
+  --accent:    #3B82F6;
+  --accent-dim:#1E3A5F;
+  --accent-glow: rgba(59,130,246,0.25);
+  --success:   #22C55E;
+  --error:     #EF4444;
+  --warning:   #F59E0B;
+  --tag-bg:    #0F172A;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius:    12px;
+  --shadow:    0 4px 32px rgba(0,0,0,0.6);
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Header ── */
+.site-header {
+  position: relative;
+  padding: 56px 24px 48px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%);
+}
+
+.header-grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.header-inner { position: relative; z-index: 1; }
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+  padding: 4px 14px;
+  border-radius: 99px;
+  margin-bottom: 20px;
+  background: rgba(59,130,246,0.06);
+}
+
+.site-header h1 {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.site-header h1 .accent { color: var(--accent); }
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* ── Container ── */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+/* ── Progress Bar ── */
+.progress-wrap {
+  margin-bottom: 32px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+}
+
+.progress-bar-bg {
+  height: 4px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3B82F6, #60A5FA, #93C5FD);
+  background-size: 200% 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── Form Card ── */
+.form-card {
+  background: rgba(17,24,39,0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: var(--shadow), 0 0 60px rgba(59,130,246,0.04);
+}
+
+/* ── Form Grid ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px 28px;
+  margin-bottom: 32px;
+}
+
+/* ── Field Group ── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: opacity 0.2s;
+}
+
+.field-group label {
+  font-family: var(--font-head);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.regex-tag {
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  color: var(--accent);
+  background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: help;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+/* ── Inputs ── */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrap input,
+.input-wrap select {
+  width: 100%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 11px 42px 11px 14px;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.input-wrap input::placeholder { color: var(--muted); }
+
+.input-wrap input:focus,
+.input-wrap select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.select-wrap::after {
+  content: '▾';
+  position: absolute;
+  right: 40px;
+  color: var(--muted);
+  pointer-events: none;
+  font-size: 0.85rem;
+}
+
+/* ── Field States ── */
+.field-group.is-valid .input-wrap input,
+.field-group.is-valid .input-wrap select {
+  border-color: var(--success);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.1);
+}
+
+.field-group.is-error .input-wrap input,
+.field-group.is-error .input-wrap select {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+}
+
+/* ── Status Icon ── */
+.status-icon {
+  position: absolute;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.field-group.is-valid  .status-icon { opacity: 1; content: '✓'; }
+.field-group.is-error  .status-icon { opacity: 1; }
+
+.field-group.is-valid  .status-icon::before { content: '✓'; color: var(--success); }
+.field-group.is-error  .status-icon::before { content: '✗'; color: var(--error); }
+
+/* ── Hints & Errors ── */
+.hint {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  line-height: 1.4;
+}
+
+.error-msg {
+  font-size: 0.78rem;
+  color: var(--error);
+  font-weight: 500;
+  min-height: 1.1em;
+  transition: opacity 0.2s;
+}
+
+/* ── Time Picker Row ── */
+.time-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.time-picker-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.time-picker-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.time-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.time-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Time input valid/error states */
+.field-group.is-valid .time-input {
+  border-color: var(--success);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.1);
+}
+.field-group.is-error .time-input {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+}
+
+.time-separator {
+  color: var(--muted);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 18px;
+}
+
+/* Fix status icon position for time picker */
+.time-picker-row > .status-icon {
+  position: relative;
+  right: auto;
+  margin-top: 18px;
+}
+
+/* ── Semester Button Group ── */
+.semester-btn-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+}
+
+.sem-btn {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sem-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: rgba(59,130,246,0.06);
+}
+
+.sem-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* Semester valid/error states */
+.field-group.is-valid .sem-btn.active {
+  background: var(--success);
+  border-color: var(--success);
+  box-shadow: 0 0 12px rgba(34,197,94,0.25);
+}
+.field-group.is-error .semester-btn-group {
+  outline: 1.5px solid var(--error);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* Fix status icon position for semester group */
+.semester-btn-group > .status-icon {
+  position: relative;
+  right: auto;
+}
+
+/* ── Form Actions ── */
+.form-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 99px;
+  padding: 13px 32px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.35);
+}
+
+.btn-primary:hover {
+  background: #60A5FA;
+  box-shadow: 0 6px 28px rgba(59,130,246,0.5);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1.5px solid var(--border);
+  border-radius: 99px;
+  padding: 13px 24px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-secondary:hover { border-color: var(--border-hl); color: var(--text); }
+
+/* ── Result Panel ── */
+.result-panel {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-top: 24px;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  animation: slideIn 0.3s ease;
+}
+
+.result-panel.hidden { display: none; }
+
+.result-panel.success { border-color: var(--success); background: rgba(34,197,94,0.06); }
+.result-panel.error   { border-color: var(--error);   background: rgba(239,68,68,0.06); }
+
+.result-icon { font-size: 2rem; flex-shrink: 0; margin-top: 2px; }
+
+.result-text h3 {
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.result-panel.success .result-text h3 { color: var(--success); }
+.result-panel.error   .result-text h3 { color: var(--error); }
+
+.result-text p { font-size: 0.85rem; color: var(--muted); }
+
+/* ── Timetable Preview ── */
+.preview-section { margin-top: 36px; }
+
+.section-title {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.timetable-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tt-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tt-row:last-child { border-bottom: none; }
+
+.tt-label {
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+
+.tt-value {
+  padding: 12px 20px;
+  font-size: 0.92rem;
+  color: var(--text);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.tt-value .chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 2px 10px;
+  border-radius: 99px;
+  background: rgba(59,130,246,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(59,130,246,0.2);
+}
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ── Animations ── */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+.shake { animation: shake 0.35s ease; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .form-card { padding: 24px 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .regex-tag { max-width: 160px; font-size: 0.62rem; }
+  .tt-row    { grid-template-columns: 120px 1fr; }
+  .time-picker-row { flex-wrap: wrap; }
+  .time-separator { display: none; }
+  .semester-btn-group { gap: 6px; }
+  .sem-btn { width: 38px; height: 38px; font-size: 0.85rem; }
+}
+
+/* ── Color scheme for native inputs ── */
+::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.8);
+  cursor: pointer;
+}
